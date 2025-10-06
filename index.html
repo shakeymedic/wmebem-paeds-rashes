@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paediatric Rashes: An EM Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .dark ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #94a3b8;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #475569;
+        }
+        .dark ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+
+        /* Modal styles */
+        .modal {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .modal-content {
+             transition: transform 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-slate-100 dark:bg-slate-900 text-slate-800 dark:text-slate-200 antialiased">
+
+    <!-- App Container -->
+    <div id="app" class="min-h-screen flex flex-col">
+
+        <!-- Header -->
+        <header class="bg-white dark:bg-slate-800/50 backdrop-blur-sm shadow-md sticky top-0 z-40">
+            <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+                <div class="flex items-center space-x-3">
+                    <img src="https://iili.io/KGQOvkl.md.png" alt="WMEBEM Logo" class="h-10 w-10 object-contain" onerror="this.style.display='none'">
+                    <h1 class="text-xl md:text-2xl font-bold text-slate-900 dark:text-white">Paediatric Rashes</h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button id="theme-toggle" class="p-2 rounded-full text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+                        <i data-lucide="sun" class="h-5 w-5 block dark:hidden"></i>
+                        <i data-lucide="moon" class="h-5 w-5 hidden dark:block"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- Search and Filter Bar -->
+            <div class="container mx-auto px-4 pb-4">
+                 <div class="relative">
+                    <input type="text" id="search-input" placeholder="Search for a rash (e.g., 'Kawasaki')..." class="w-full pl-10 pr-4 py-2 border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 rounded-lg focus:ring-2 focus:ring-sky-500 focus:outline-none transition">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                         <i data-lucide="search" class="h-5 w-5 text-slate-400"></i>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="flex-grow container mx-auto px-4 py-8">
+
+            <!-- Emergency Rashes Section -->
+            <section id="emergency-rashes" class="mb-12">
+                <h2 class="text-2xl font-bold mb-1 border-b-2 border-red-500 pb-2 flex items-center">
+                    <i data-lucide="alert-triangle" class="h-6 w-6 mr-3 text-red-500"></i>
+                    Emergency Rashes (Red Flags)
+                </h2>
+                <p class="text-slate-600 dark:text-slate-400 mb-6">Immediate recognition and action required. Assume the worst until proven otherwise.</p>
+                <div id="emergency-rashes-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Rash cards will be injected here by JS -->
+                </div>
+            </section>
+
+            <!-- Common Named Rashes Section -->
+            <section id="named-rashes" class="mb-12">
+                <h2 class="text-2xl font-bold mb-1 border-b-2 border-sky-500 pb-2 flex items-center">
+                     <i data-lucide="book-marked" class="h-6 w-6 mr-3 text-sky-500"></i>
+                    Common "Named" Rashes
+                </h2>
+                <p class="text-slate-600 dark:text-slate-400 mb-6">Generally benign conditions often identifiable by characteristic clinical features.</p>
+                <div id="named-rashes-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Rash cards will be injected here by JS -->
+                </div>
+            </section>
+            
+             <!-- Other Rashes Section -->
+            <section id="other-rashes">
+                <h2 class="text-2xl font-bold mb-1 border-b-2 border-teal-500 pb-2 flex items-center">
+                     <i data-lucide="puzzle" class="h-6 w-6 mr-3 text-teal-500"></i>
+                    Other Common Rashes & Dermatoses
+                </h2>
+                <p class="text-slate-600 dark:text-slate-400 mb-6">Includes non-specific viral exanthems and other frequently seen skin conditions.</p>
+                <div id="other-rashes-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                     <!-- Rash cards will be injected here by JS -->
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-white dark:bg-slate-800/50 mt-12 py-4 shadow-inner">
+            <div class="container mx-auto px-4 text-center text-sm text-slate-500 dark:text-slate-400">
+                <p>This tool is for educational and quick-reference purposes. Always use clinical judgment and consult local guidelines.</p>
+                <p>&copy; 2025 WMEBEM Paediatric Rash Guide.</p>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Modal Structure -->
+    <div id="rash-modal" class="modal fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 opacity-0 pointer-events-none">
+        <div id="modal-content" class="modal-content bg-white dark:bg-slate-800 rounded-lg shadow-2xl max-w-3xl w-full max-h-[90vh] flex flex-col transform scale-95">
+            <div class="flex justify-between items-center p-4 border-b border-slate-200 dark:border-slate-700">
+                <h3 id="modal-title" class="text-2xl font-bold"></h3>
+                <button id="modal-close-btn" class="p-2 rounded-full text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+                    <i data-lucide="x" class="h-6 w-6"></i>
+                </button>
+            </div>
+            <div id="modal-body" class="p-6 overflow-y-auto">
+                <!-- Modal content will be injected here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- DATA STORE ---
+        // Data synthesized from the provided PDF documents.
+        const rashesData = [
+            // EMERGENCY RASHES
+            {
+                id: 1,
+                name: "Meningococcal Septicaemia",
+                category: "emergency",
+                tags: ["non-blanching", "petechial", "purpuric", "sepsis", "fever", "meningitis"],
+                image: "https://assets.nhs.uk/nhsuk-cms/images/A_0917_Meningitis-rash_C0138241.max-650x650.jpg",
+                summary: "A time-critical bacterial infection causing a non-blanching rash. MEDICAL EMERGENCY.",
+                details: `
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="font-semibold text-lg mb-2 text-red-500">Aetiology</h4>
+                            <p>Invasive infection with <em>Neisseria meningitidis</em>, leading to sepsis and endothelial damage, causing the characteristic non-blanching rash.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-lg mb-2 text-red-500">Clinical Presentation</h4>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li><b>Non-blanching petechial or purpuric rash</b> is the hallmark sign, but may be absent or start as a blanching maculopapular rash.</li>
+                                <li>Child appears unwell/toxic: high fever, lethargy, poor feeding, irritability, high-pitched cry.</li>
+                                <li>Signs of shock: tachycardia, prolonged CRT (>2s), cold extremities, hypotension (late sign).</li>
+                                <li>Other symptoms: vomiting, severe leg pain, headache, neck stiffness, photophobia.</li>
+                                <li>The rash can progress with devastating rapidity. Purpura >2mm is a strong predictor.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-lg mb-2 text-red-500">ED Management & Investigations</h4>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li><strong>IMMEDIATE ABCDE approach & senior paediatric review.</strong></li>
+                                <li>High-flow oxygen, secure IV/IO access.</li>
+                                <li><strong>Bloods:</strong> FBC, CRP, culture, clotting screen, blood gas, meningococcal PCR.</li>
+                                <li>Administer IV antibiotics <strong>WITHOUT DELAY</strong> (e.g., Ceftriaxone/Cefotaxime per local guidelines).</li>
+                                <li>Fluid resuscitation (20ml/kg crystalloid bolus) for shock.</li>
+                                <li>Early PICU involvement. <strong>Do not delay treatment for investigations.</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 2,
+                name: "SJS / TEN",
+                category: "emergency",
+                tags: ["stevens-johnson", "toxic epidermal necrolysis", "blistering", "painful", "mucosal", "drug reaction"],
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Stevens-Johnson_syndrome.jpeg/640px-Stevens-Johnson_syndrome.jpeg",
+                summary: "Severe mucocutaneous reaction, often to drugs, causing epidermal detachment.",
+                details: `
+                     <div class="space-y-4">
+                        <div>
+                            <h4 class="font-semibold text-lg mb-2 text-red-500">Aetiology</h4>
+                            <p>A severe, idiosyncratic cell-mediated hypersensitivity reaction. Most commonly triggered by medications (antibiotics like sulphonamides, anticonvulsants, NSAIDs) or, particularly in children, infections such as <em>Mycoplasma pneumoniae</em>.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-lg mb-2 text-red-500">Clinical Presentation</h4>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>Starts with a 1-3 day prodrome of fever, malaise and flu-like symptoms.</li>
+                                <li>Rash is <strong>painful</strong>, starting as poorly defined erythematous macules with purpuric centres, progressing to flaccid bullae and epidermal sloughing.</li>
+                                <li><strong>Severe mucosal involvement is the hallmark:</strong> Haemorrhagic erosions and crusting of at least two sites (oral, ocular, genital).</li>
+                                <li><strong>Positive Nikolsky's sign:</strong> gentle lateral pressure on skin causes exfoliation.</li>
+                                <li>Spectrum based on Body Surface Area (BSA) detachment: SJS <10%, SJS/TEN overlap 10-30%, TEN >30%.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-lg mb-2 text-red-500">ED Management & Investigations</h4>
+                             <ul class="list-disc list-inside space-y-1">
+                                <li><strong>IMMEDIATE withdrawal of any potential causative medication.</strong></li>
+                                <li>Urgent admission to PICU or a specialised burns unit for multidisciplinary care.</li>
+                                <li>Mainstay is supportive care: aggressive fluid/electrolyte replacement, nutritional support, meticulous wound care, pain control.</li>
+                                <li>Urgent Ophthalmology and Dermatology review is essential.</li>
+                                <li>Investigations: FBC, U&Es, LFTs, CRP. Skin biopsy can confirm diagnosis if uncertain.</li>
+                            </ul>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 3,
+                name: "Eczema Herpeticum",
+                category: "emergency",
+                tags: ["eczema", "herpes", "vesicular", "punched-out", "fever", "atopic"],
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Eczema_herpeticum_on_the_face_of_a_child.jpg/640px-Eczema_herpeticum_on_the_face_of_a_child.jpg",
+                summary: "Disseminated HSV infection in a child with pre-existing atopic eczema.",
+                details: `
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="font-semibold text-lg mb-2 text-red-500">Aetiology</h4>
+                            <p>Widespread cutaneous Herpes Simplex Virus (HSV-1 or 2) infection. The compromised skin barrier in atopic dermatitis allows the virus to spread rapidly.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-lg mb-2 text-red-500">Clinical Presentation</h4>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>Acute onset of a painful, widespread vesicular eruption in a child with a history of atopic eczema.</li>
+                                <li>Clusters of <strong>monomorphic, umbilicated vesicles</strong> which can evolve into "punched-out" erosions.</li>
+                                <li>Associated with systemic symptoms: fever, malaise, irritability, lymphadenopathy.</li>
+                                <li>Typically affects the head, neck, and trunk but can become generalised.</li>
+                                <li><strong>Differentials:</strong> Severe eczema flare, impetigo, varicella (lesions in different stages).</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-lg mb-2 text-red-500">ED Management & Investigations</h4>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li><strong>Immediate hospital admission for antiviral therapy.</strong></li>
+                                <li><strong>IV Acyclovir</strong> is indicated for systemically unwell children or those with widespread disease. Oral Acyclovir may be considered for mild, localised cases.</li>
+                                <li><strong>Investigations:</strong> Send a viral swab (HSV PCR) from the base of a fresh vesicle.</li>
+                                <li>Secondary bacterial infection is common; co-prescribe systemic antibiotics (e.g., Flucloxacillin).</li>
+                                <li><strong>Urgent Ophthalmology review</strong> if any periorbital or ocular involvement to rule out keratoconjunctivitis.</li>
+                            </ul>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 4,
+                name: "Kawasaki Disease",
+                category: "emergency",
+                tags: ["fever", "conjunctivitis", "strawberry tongue", "rash", "vasculitis", "cardiac"],
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Kawasaki_disease_strawberry_tongue.jpg/640px-Kawasaki_disease_strawberry_tongue.jpg",
+                summary: "Acute systemic vasculitis, the leading cause of acquired heart disease in children.",
+                details: `
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="font-semibold text-lg mb-2 text-amber-500">Aetiology</h4>
+                            <p>An acute, self-limiting systemic vasculitis of unknown cause, predominantly affecting children under 5. Inflammation of medium-sized arteries, particularly the coronary arteries, is the key pathology.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-lg mb-2 text-amber-500">Diagnostic Criteria</h4>
+                            <p class="mb-2"><strong>Fever for ≥ 5 days PLUS at least 4 of the following 5 features (Mnemonic: CRASH):</strong></p>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li><strong>C</strong>onjunctivitis: Bilateral, non-exudative, limbic-sparing.</li>
+                                <li><strong>R</strong>ash: Polymorphous (maculopapular, scarlatiniform), non-vesicular.</li>
+                                <li><strong>A</strong>denopathy: Cervical, usually unilateral, >1.5cm.</li>
+                                <li><strong>S</strong>trawberry tongue & oral changes: Red/cracked lips, erythema of oropharynx.</li>
+                                <li><strong>H</strong>and/foot changes: Acute erythema/oedema or subacute periungual peeling.</li>
+                            </ul>
+                             <p class="mt-2">Maintain high suspicion for <strong>Incomplete Kawasaki</strong> in infants with prolonged fever not meeting full criteria, who may have supporting lab findings (high CRP/ESR).</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-lg mb-2 text-amber-500">ED Management & Investigations</h4>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>All children with suspected Kawasaki Disease require hospital admission.</li>
+                                <li>Treatment with <strong>IV Immunoglobulin (IVIG) and high-dose Aspirin</strong> within 10 days of fever onset is crucial to prevent coronary artery aneurysms.</li>
+                                <li><strong>Investigations:</strong> Baseline FBC, U&Es, LFTs, CRP, ESR. A baseline <strong>echocardiogram</strong> is mandatory.</li>
+                            </ul>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 12, // New ID
+                name: "SSSS",
+                category: "emergency",
+                tags: ["staphylococcal scalded skin syndrome", "peeling", "erythema", "nikolsky", "staph"],
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Staphylococcal_scalded_skin_syndrome_in_a_newborn_-_Case_1.jpg/640px-Staphylococcal_scalded_skin_syndrome_in_a_newborn_-_Case_1.jpg",
+                summary: "Toxin-mediated skin exfoliation caused by Staphylococcus aureus.",
+                details: `
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="font-semibold text-lg mb-2 text-red-500">Aetiology</h4>
+                            <p>Caused by exfoliative toxins from certain strains of <em>Staphylococcus aureus</em>. The toxins cleave proteins in the superficial epidermis, causing blistering and desquamation. Primarily affects children under 5 years.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-lg mb-2 text-red-500">Clinical Presentation</h4>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>Starts with fever, irritability, and a widespread, tender erythema (like sunburn).</li>
+                                <li>Large, flaccid bullae form within 24-48 hours, which rupture easily leaving moist, denuded skin.</li>
+                                <li><strong>Positive Nikolsky's sign.</strong></li>
+                                <li><strong>Key differentiator from SJS/TEN: Mucous membranes are typically spared.</strong></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-lg mb-2 text-red-500">ED Management & Investigations</h4>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>Hospital admission for IV antibiotics and supportive care.</li>
+                                <li>Treatment is with IV anti-staphylococcal antibiotics (e.g., Flucloxacillin).</li>
+                                <li>Supportive care includes meticulous wound care, fluid management, and analgesia.</li>
+                                <li>Swabs should be taken from potential sources of infection (e.g., nose, throat, any broken skin).</li>
+                            </ul>
+                        </div>
+                    </div>
+                `
+            },
+            // COMMON NAMED RASHES
+            {
+                id: 5,
+                name: "Scarlet Fever",
+                category: "named",
+                tags: ["sandpaper", "strep", "strawberry tongue", "pastia's lines", "circumoral pallor"],
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Scarlet_fever_2.jpg/640px-Scarlet_fever_2.jpg",
+                summary: "A toxin-mediated rash from Group A Strep infection, typically pharyngitis.",
+                details: `
+                     <div class="space-y-4">
+                        <div>
+                            <h4 class="font-semibold text-lg mb-2">Aetiology</h4>
+                            <p>Caused by an erythrogenic exotoxin produced by <em>Streptococcus pyogenes</em> (Group A Strep), usually in the context of pharyngitis or tonsillitis.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-lg mb-2">Clinical Presentation</h4>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>Prodrome of fever, headache, and sore throat.</li>
+                                <li>Rash appears 1-2 days later: a fine, punctate erythema that feels rough like <strong>"sandpaper"</strong>.</li>
+                                <li>Typically starts on the chest and spreads, but spares the palms and soles.</li>
+                                <li>Classic signs: <strong>Strawberry tongue</strong> and a flushed face with <strong>circumoral pallor</strong>.</li>
+                                <li><strong>Pastia's lines:</strong> accentuation of the rash in flexural creases.</li>
+                                <li>Desquamation (peeling) of skin on fingertips/toes occurs during recovery.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-lg mb-2">ED Management & Disposition</h4>
+                             <ul class="list-disc list-inside space-y-1">
+                                <li>Diagnosis is clinical, can be supported by a rapid strep test or throat culture.</li>
+                                <li>Treatment is a 10-day course of <strong>Phenoxymethylpenicillin (Penicillin V)</strong> or Amoxicillin to prevent complications like rheumatic fever.</li>
+                                <li>Symptomatic treatment for fever and pain.</li>
+                                <li>Children can return to school 24 hours after commencing antibiotics.</li>
+                            </ul>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 6,
+                name: "Hand, Foot & Mouth Disease",
+                category: "named",
+                tags: ["coxsackie", "vesicles", "oral ulcers", "palms", "soles"],
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Hand-foot-and-mouth_disease_on_a_hand.jpg/640px-Hand-foot-and-mouth_disease_on_a_hand.jpg",
+                summary: "Common viral illness (Coxsackievirus) causing oral ulcers and a characteristic rash.",
+                details: `
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="font-semibold text-lg mb-2">Aetiology</h4>
+                            <p>Caused by enteroviruses, most commonly Coxsackievirus A16.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-lg mb-2">Clinical Presentation</h4>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>Starts with a low-grade fever, malaise, and a sore mouth.</li>
+                                <li>Painful oral ulcers (enanthem) often appear first.</li>
+                                <li>Followed by the characteristic non-pruritic papulovesicular rash (exanthem) on the <strong>palms of the hands and soles of the feet</strong>.</li>
+                                <li>Lesions can also be present on the buttocks and limbs.</li>
+                                <li>Atypical HFMD can present with a more widespread, severe eruption (Eczema Coxsackium).</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-lg mb-2">ED Management & Disposition</h4>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>Treatment is supportive: analgesia (paracetamol/ibuprofen) and encouraging fluid intake.</li>
+                                <li>The most common complication is <strong>dehydration</strong> due to painful oral lesions preventing drinking. Admit for IV fluids if there are clinical signs of dehydration.</li>
+                                <li>Provide safety netting for rare but serious complications like aseptic meningitis or encephalitis.</li>
+                                <li>Children should be kept off school while they feel unwell.</li>
+                            </ul>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 7,
+                name: "Erythema Infectiosum (Fifth Disease)",
+                category: "named",
+                tags: ["slapped cheek", "parvovirus b19", "lacy", "reticular"],
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Slapped_Cheek_Syndrome.jpg/640px-Slapped_Cheek_Syndrome.jpg",
+                summary: "Caused by Parvovirus B19, with a classic 'slapped cheek' facial rash.",
+                details: `
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="font-semibold text-lg mb-2">Aetiology</h4>
+                            <p>Caused by Parvovirus B19. The child is most infectious before the rash appears.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-lg mb-2">Clinical Presentation</h4>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>Often the first sign is the rash, with the child appearing otherwise well.</li>
+                                <li>Classic intense, confluent erythema on both cheeks, giving a <strong>"slapped cheek"</strong> appearance, which spares the nasal bridge.</li>
+                                <li>A few days later, a second maculopapular rash appears on the trunk and limbs, which evolves into a distinctive <strong>lacy or reticular (net-like) pattern</strong> as it fades.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-lg mb-2">ED Management & Safety Netting</h4>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>Management is symptomatic with reassurance. The child is no longer contagious once the rash appears and does not need to be excluded from school.</li>
+                                <li><strong>Key Risks to Advise On:</strong>
+                                    <ul class="list-['-_'] list-inside ml-4">
+                                        <li>Can cause transient <strong>aplastic crisis</strong> in children with underlying haemoglobinopathies (e.g., sickle cell disease).</li>
+                                        <li>Can cause <strong>hydrops fetalis</strong> if a non-immune pregnant woman is exposed in the first 20 weeks of gestation.</li>
+                                    </ul>
+                                </li>
+                                <li>Advise parents to inform the school and any pregnant contacts.</li>
+                            </ul>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 8,
+                name: "Varicella (Chickenpox)",
+                category: "named",
+                tags: ["vzv", "itchy", "vesicular", "crops", "crusted"],
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Varicela_-_Chickenpox.jpg/640px-Varicela_-_Chickenpox.jpg",
+                summary: "Highly contagious VZV infection with an intensely pruritic, vesicular rash.",
+                details: `
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="font-semibold text-lg mb-2">Aetiology</h4>
+                            <p>A primary infection with the Varicella-Zoster Virus (VZV).</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-lg mb-2">Clinical Presentation</h4>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>Intensely pruritic rash that progresses through stages: macules → papules → vesicles ("dew drops on a rose petal") → pustules → crusted lesions.</li>
+                                <li>A key diagnostic feature is that <strong>lesions appear in successive crops</strong>, so all stages are present simultaneously.</li>
+                                <li>The distribution is centripetal (more concentrated on the trunk and head).</li>
+                            </ul>
+                        </div>
+                        <div>
+                             <h4 class="font-semibold text-lg mb-2">ED Management & Disposition</h4>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>In immunocompetent children, treatment is symptomatic: antipyretics, soothing lotions (e.g., calamine), and antihistamines for pruritus.</li>
+                                <li><strong>Crucially, advise parents to AVOID NSAIDs (e.g., ibuprofen)</strong> due to an association with an increased risk of severe secondary bacterial skin infections like necrotising fasciitis. Paracetamol is preferred.</li>
+                                <li>Admission and IV Acyclovir are indicated for high-risk groups: neonates, the immunocompromised, and those with severe complications (e.g., pneumonia, encephalitis).</li>
+                                <li>Exclude from school until all lesions have crusted over.</li>
+                            </ul>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 13, // New ID
+                name: "IgA Vasculitis (HSP)",
+                category: "named",
+                tags: ["henoch-schönlein purpura", "palpable purpura", "vasculitis", "non-blanching", "arthritis"],
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Henoch-Schonlein_purpura_lesions_on_legs.jpg/640px-Henoch-Schonlein_purpura_lesions_on_legs.jpg",
+                summary: "The most common systemic vasculitis in childhood, causing a classic purpuric rash.",
+                details: `
+                     <div class="space-y-4">
+                        <div>
+                            <h4 class="font-semibold text-lg mb-2">Aetiology</h4>
+                            <p>An immune-mediated IgA vasculitis, often preceded by an upper respiratory tract infection. It causes inflammation of small blood vessels in the skin, joints, GI tract, and kidneys.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-lg mb-2">Clinical Presentation</h4>
+                            <p class="mb-2">Diagnosis is clinical, based on <strong>purpura PLUS at least one of the following:</strong></p>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li><strong>Rash:</strong> Symmetrical, palpable purpura, predominantly on the buttocks and lower limbs.</li>
+                                <li><strong>Abdominal pain:</strong> Colicky pain, may have vomiting or GI bleeding.</li>
+                                <li><strong>Arthritis/arthralgia:</strong> Usually affecting large joints of the lower limbs (knees, ankles).</li>
+                                <li><strong>Renal involvement:</strong> Haematuria and/or proteinuria.</li>
+                            </ul>
+                             <p class="mt-2">The child often appears well. Platelet count is normal or high.</p>
+                        </div>
+                        <div>
+                             <h4 class="font-semibold text-lg mb-2">ED Management & Investigations</h4>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li><strong>Mandatory investigations:</strong> Urinalysis for blood/protein and a blood pressure measurement.</li>
+                                <li>Further bloods (FBC, U&E, Albumin) if unwell or significant abdominal pain.</li>
+                                <li>Management is supportive with simple analgesia. Steroids may be used for severe abdominal or joint pain.</li>
+                                <li>Admission for pain control, inability to mobilise, or signs of complications (e.g., severe abdominal pain, nephritis). All cases require GP follow-up for blood pressure and urine monitoring.</li>
+                            </ul>
+                        </div>
+                    </div>
+                `
+            },
+             // OTHER RASHES
+            {
+                id: 9,
+                name: "Urticaria (Hives)",
+                category: "other",
+                tags: ["wheals", "itchy", "hives", "allergic", "transient"],
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Urticaria_2015.jpg/640px-Urticaria_2015.jpg",
+                summary: "Transient, itchy wheals. Most commonly triggered by viral infections in children.",
+                details: `
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="font-semibold text-lg mb-2">Aetiology</h4>
+                            <p>Caused by histamine release from mast cells. In children, the most common trigger is a viral infection. Other causes include allergies (food, drugs), and insect stings.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-lg mb-2">Clinical Presentation</h4>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>The characteristic lesion is a "wheal"—a well-circumscribed, raised, erythematous, and intensely pruritic plaque with central pallor.</li>
+                                <li>Lesions are <strong>transient</strong>, with individual wheals appearing and disappearing within minutes to hours (always <24 hours).</li>
+                                <li>May be associated with angioedema (deeper, non-pitting swelling of lips, eyelids etc).</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-lg mb-2">ED Management & Disposition</h4>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li><strong>The first priority is to exclude anaphylaxis.</strong> A quick ABCDE assessment is vital. Look for airway compromise, respiratory distress, or circulatory problems.</li>
+                                <li>For isolated urticaria, treatment is symptomatic with a non-sedating H1 antihistamine (e.g., Cetirizine, Loratadine).</li>
+                                <li>Discharge with safety netting advice to return immediately if signs of anaphylaxis develop.</li>
+                            </ul>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 10,
+                name: "Impetigo",
+                category: "other",
+                tags: ["honey-crusted", "bacterial", "contagious", "staph", "strep"],
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Impetigo_-_Staphylokokkeninfektion.jpg/640px-Impetigo_-_Staphylokokkeninfektion.jpg",
+                summary: "Superficial bacterial skin infection, highly contagious, with characteristic honey-coloured crusts.",
+                details: `
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="font-semibold text-lg mb-2">Aetiology</h4>
+                            <p>A superficial skin infection caused by <em>Staphylococcus aureus</em> or <em>Streptococcus pyogenes</em>.</p>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-lg mb-2">Clinical Presentation</h4>
+                             <ul class="list-disc list-inside space-y-1">
+                                <li><strong>Non-bullous impetigo:</strong> Most common form. Vesicles or pustules rupture to leave a thick, adherent, <strong>"honey-coloured" crust</strong>. Typically affects the face around the nose and mouth.</li>
+                                <li><strong>Bullous impetigo:</strong> Characterised by larger, flaccid bullae containing clear or yellow fluid, which rupture to leave a thin crust. More common on the trunk.</li>
+                            </ul>
+                        </div>
+                        <div>
+                             <h4 class="font-semibold text-lg mb-2">ED Management & Disposition</h4>
+                             <ul class="list-disc list-inside space-y-1">
+                                <li>Management depends on severity. Localised non-bullous impetigo can be treated with topical antibiotics (e.g., fusidic acid).</li>
+                                <li>Widespread or bullous impetigo requires oral antibiotics (e.g., Flucloxacillin).</li>
+                                <li>Advise on good hygiene measures as it is highly contagious. Children should be excluded from school until lesions are crusted and dry, or for 48 hours after starting antibiotic treatment.</li>
+                            </ul>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                id: 11,
+                name: "Non-specific Viral Exanthem",
+                category: "other",
+                tags: ["viral", "maculopapular", "benign", "fever"],
+                image: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Morbilliform_rash_from_mycoplasma_pneumoniae.jpg/640px-Morbilliform_rash_from_mycoplasma_pneumoniae.jpg",
+                summary: "The most common diagnosis. A benign rash associated with a viral illness.",
+                details: `
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="font-semibold text-lg mb-2">Clinical Presentation</h4>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>This is the diagnosis for the majority of rashes seen in the ED.</li>
+                                <li>Typically a widespread, erythematous, symmetric maculopapular (contains both flat spots and raised bumps) rash.</li>
+                                <li>Associated with other viral symptoms like fever, cough, coryza.</li>
+                                <li>The child is generally well-appearing and physiologically stable.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-lg mb-2">ED Management & Disposition</h4>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>This is a diagnosis of exclusion. The main clinical goal is the confident exclusion of serious pathology ("red flag" rashes).</li>
+                                <li>Provide reassurance and symptomatic treatment advice (fluids, simple analgesia like paracetamol).</li>
+                                <li><strong>Robust safety netting is crucial.</strong> Provide parents/carers with clear, specific instructions on when to return to the ED. This should include:
+                                    <ul class="list-['-_'] list-inside ml-4">
+                                        <li>The child becomes more unwell or difficult to wake.</li>
+                                        <li>Development of a non-blanching rash.</li>
+                                        <li>Difficulty breathing or uncontrolled fever.</li>
+                                        <li>Reduced urine output or signs of dehydration.</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                `
+            },
+        ];
+
+        // --- APP LOGIC ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const emergencyGrid = document.getElementById('emergency-rashes-grid');
+            const namedGrid = document.getElementById('named-rashes-grid');
+            const otherGrid = document.getElementById('other-rashes-grid');
+            const searchInput = document.getElementById('search-input');
+            const modal = document.getElementById('rash-modal');
+            const modalContent = document.getElementById('modal-content');
+            const modalTitle = document.getElementById('modal-title');
+            const modalBody = document.getElementById('modal-body');
+            const modalCloseBtn = document.getElementById('modal-close-btn');
+            const themeToggle = document.getElementById('theme-toggle');
+
+            // --- Theme Toggling ---
+            const applyTheme = (theme) => {
+                if (theme === 'dark') {
+                    document.documentElement.classList.add('dark');
+                    document.documentElement.classList.remove('light');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                    document.documentElement.classList.add('light');
+                }
+            };
+            
+            const currentTheme = localStorage.getItem('theme') || 'light';
+            applyTheme(currentTheme);
+
+            themeToggle.addEventListener('click', () => {
+                const newTheme = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
+                localStorage.setItem('theme', newTheme);
+                applyTheme(newTheme);
+            });
+
+            // --- Modal Logic ---
+            const openModal = (rash) => {
+                modalTitle.textContent = rash.name;
+                modalBody.innerHTML = `
+                    <img src="${rash.image}" alt="Clinical photo of ${rash.name}" class="w-full h-64 object-cover rounded-lg mb-4" onerror="this.onerror=null;this.src='https://placehold.co/600x400/94a3b8/ffffff?text=Image+Not+Available';">
+                    ${rash.details}
+                `;
+                modal.classList.remove('opacity-0', 'pointer-events-none');
+                modalContent.classList.remove('scale-95');
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            };
+
+            const closeModal = () => {
+                modal.classList.add('opacity-0');
+                modalContent.classList.add('scale-95');
+                 setTimeout(() => {
+                    modal.classList.add('pointer-events-none');
+                    document.body.style.overflow = '';
+                }, 300);
+            };
+
+            modalCloseBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+            document.addEventListener('keydown', (e) => {
+                if (e.key === "Escape") closeModal();
+            });
+
+            // --- Card Creation ---
+            const createRashCard = (rash) => {
+                const card = document.createElement('div');
+                card.className = `rash-card bg-white dark:bg-slate-800 rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-1 transition-all duration-300 cursor-pointer`;
+                card.dataset.id = rash.id;
+                card.dataset.name = rash.name.toLowerCase();
+                card.dataset.tags = rash.tags.join(' ');
+                
+                let borderColorClass = 'border-slate-300 dark:border-slate-600';
+                if (rash.category === 'emergency') borderColorClass = 'border-red-500';
+                if (rash.name === 'Kawasaki Disease') borderColorClass = 'border-amber-500';
+                
+                card.innerHTML = `
+                    <div class="h-48 overflow-hidden">
+                        <img src="${rash.image}" alt="${rash.name}" class="w-full h-full object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/94a3b8/ffffff?text=Image+Not+Available';">
+                    </div>
+                    <div class="p-4 border-t-4 ${borderColorClass}">
+                        <h3 class="font-bold text-lg text-slate-900 dark:text-white">${rash.name}</h3>
+                        <p class="text-slate-600 dark:text-slate-400 text-sm mt-1">${rash.summary}</p>
+                    </div>
+                `;
+                card.addEventListener('click', () => openModal(rash));
+                return card;
+            };
+
+            // --- Initial Render ---
+            const renderRashes = (filter = '') => {
+                emergencyGrid.innerHTML = '';
+                namedGrid.innerHTML = '';
+                otherGrid.innerHTML = '';
+                const filterLower = filter.toLowerCase();
+
+                rashesData.sort((a, b) => a.name.localeCompare(b.name)).forEach(rash => {
+                    const matchesFilter = filter === '' || rash.name.toLowerCase().includes(filterLower) || rash.tags.some(tag => tag.includes(filterLower));
+                    
+                    if (matchesFilter) {
+                        const card = createRashCard(rash);
+                        if (rash.category === 'emergency') {
+                            emergencyGrid.appendChild(card);
+                        } else if (rash.category === 'named') {
+                            namedGrid.appendChild(card);
+                        } else {
+                            otherGrid.appendChild(card);
+                        }
+                    }
+                });
+                
+                // Hide sections if no results
+                document.getElementById('emergency-rashes').style.display = emergencyGrid.children.length ? '' : 'none';
+                document.getElementById('named-rashes').style.display = namedGrid.children.length ? '' : 'none';
+                document.getElementById('other-rashes').style.display = otherGrid.children.length ? '' : 'none';
+            };
+
+            // --- Search Functionality ---
+            searchInput.addEventListener('input', (e) => {
+                renderRashes(e.target.value);
+            });
+
+            // --- Initialise App ---
+            lucide.createIcons();
+            renderRashes();
+
+             // Re-run createIcons for theme toggle
+            const observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    if (mutation.attributeName === "class") {
+                        lucide.createIcons();
+                    }
+                });
+            });
+            observer.observe(document.documentElement, { attributes: true });
+        });
+    </script>
+</body>
+</html>
+
